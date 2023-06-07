@@ -5,10 +5,6 @@ import { getMovies, postMovie } from "../service/moviesService";
 const MovieProvider = ({ children }) => {
   const [movieState, setMovieState] = useState([]);
 
-  useEffect(() => {
-    getMovies().then(({ data }) => setMovieState(data));
-  }, []);
-
   const postNewMovie = (movie) => {
     postMovie(movie).then(({ data }) => {
       setMovieState((prevState) => [...prevState, data]);
