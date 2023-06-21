@@ -11,3 +11,12 @@ API.interceptors.request.use(function (request) {
   }
   return request;
 });
+
+API.interceptors.response.use(function (response) {
+  if (response.status === 401) {
+    const token = localStorage.getItem("access_token");
+    if(token) {
+      API.post('/refresh');
+    }
+  }
+});
