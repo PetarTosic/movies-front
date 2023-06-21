@@ -15,8 +15,13 @@ API.interceptors.request.use(function (request) {
 API.interceptors.response.use(function (response) {
   if (response.status === 401) {
     const token = localStorage.getItem("access_token");
-    if(token) {
-      API.post('/refresh');
+    const refreshToken = localStorage.getItem("refresh_token");
+    if (token) {
+      API.post("/refresh").then(({ data }) =>
+        localStorage.setItem("access_token", data.authorization.token)
+      );
+
+      API.request(response.config);
     }
   }
 });
